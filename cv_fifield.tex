@@ -1,453 +1,167 @@
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%% Simple LaTeX CV Template %%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% NOTE: If you find that it says                                     %%
-%%                                                                    %%
-%%                           1 of ??                                  %%
-%%                                                                    %%
-%% at the bottom of your first page, this means that the AUX file     %%
-%% was not available when you ran LaTeX on this source. Simply RERUN  %%
-%% LaTeX to get the ``??'' replaced with the number of the last page  %%
-%% of the document. The AUX file will be generated on the first run   %%
-%% of LaTeX and used on the second run to fill in all of the          %%
-%% references.                                                        %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%% Document Setup %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% Don't like 10pt? Try 11pt or 12pt
-\documentclass[10pt]{article}
-
-% The automated optical recognition software used to digitize resume
-% information works best with fonts that do not have serifs. This
-% command uses a sans serif font throughout. Uncomment both lines (or at
-% least the second) to restore a Roman font (i.e., a font with serifs).
-%\usepackage{times}
-%\renewcommand{\familydefault}{\sfdefault}
-
-% This is a helpful package that puts math inside length specifications
-\usepackage{calc}
-
-% Layout: Puts the section titles on left side of page
-\reversemarginpar
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Deedy - One Page Two Column Resume
+% LaTeX Template
+% Version 1.1 (30/4/2014)
 %
-%         PAPER SIZE, PAGE NUMBER, AND DOCUMENT LAYOUT NOTES:
+% Original author:
+% Debarghya Das (http://debarghyadas.com)
 %
-% The next \usepackage line changes the layout for CV style section
-% headings as marginal notes. It also sets up the paper size as either
-% letter or A4. By default, letter was used. If A4 paper is desired,
-% comment out the letterpaper lines and uncomment the a4paper lines.
+% Original repository:
+% https://github.com/deedydas/Deedy-Resume
 %
-% As you can see, the margin widths and section title widths can be
-% easily adjusted.
+% IMPORTANT: THIS TEMPLATE NEEDS TO BE COMPILED WITH XeLaTeX
 %
-% ALSO: Notice that the includefoot option can be commented OUT in order
-% to put the PAGE NUMBER *IN* the bottom margin. This will make the
-% effective text area larger.
+% This template uses several fonts not included with Windows/Linux by
+% default. If you get compilation errors saying a font is missing, find the line
+% on which the font is used and either change it to a font included with your
+% operating system or comment the line out to use the default font.
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% TODO:
+% 1. Integrate biber/bibtex for article citation under publications.
+% 2. Figure out a smoother way for the document to flow onto the next page.
+% 3. Add styling information for a "Projects/Hacks" section.
+% 4. Add location/address information
+% 5. Merge OpenFont and MacFonts as a single sty with options.
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% IF YOU WISH TO REMOVE THE ``of LASTPAGE'' next to each page number,
-% see the note about the +LP and -LP lines below. Comment out the +LP
-% and uncomment the -LP.
+% CHANGELOG:
+% v1.1:
+% 1. Fixed several compilation bugs with \renewcommand
+% 2. Got Open-source fonts (Windows/Linux support)
+% 3. Added Last Updated
+% 4. Move Title styling into .sty
+% 5. Commented .sty file.
 %
-% IF YOU WISH TO REMOVE PAGE NUMBERS, be sure that the includefoot line
-% is uncommented and ALSO uncomment the \pagestyle{empty} a few lines
-% below.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-
-%% Use these lines for letter-sized paper
-\usepackage[paper=letterpaper,
-            %includefoot, % Uncomment to put page number above margin
-            marginparwidth=1.2in,     % Length of section titles
-            marginparsep=.05in,       % Space between titles and text
-            margin=1in,               % 1 inch margins
-            includemp]{geometry}
-
-%% Use these lines for A4-sized paper
-%\usepackage[paper=a4paper,
-%            %includefoot, % Uncomment to put page number above margin
-%            marginparwidth=30.5mm,    % Length of section titles
-%            marginparsep=1.5mm,       % Space between titles and text
-%            margin=25mm,              % 25mm margins
-%            includemp]{geometry}
-
-%% More layout: Get rid of indenting throughout entire document
-\setlength{\parindent}{0in}
-
-\usepackage[shortlabels]{enumitem}
-
-% Simpler bibsections for CV sections
-% (thanks to natbib for inspiration)
+% Known Issues:
+% 1. Overflows onto second page if any column's contents are more than the
+% vertical limit
+% 2. Hacky space on the first bullet point on the second column.
 %
-% * For lists of references with hanging indents and no numbers:
-%
-%   \begin{bibsection}
-%       \item ...
-%   \end{bibsection}
-%
-% * For numbered lists of references (with hanging indents):
-%
-%   \begin{bibenum}
-%       \item ...
-%   \end{bibenum}
-%
-%   Note that bibenum numbers continuously throughout. To reset the
-%   counter, use
-%
-%   \restartlist{bibenum}
-%
-%   at the place where you want the numbering to reset.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\makeatletter
-\newlength{\bibhang}
-\setlength{\bibhang}{1em}
-\newlength{\bibsep}
- {\@listi \global\bibsep\itemsep \global\advance\bibsep by\parsep}
-\newlist{bibsection}{itemize}{3}
-\setlist[bibsection]{label=,leftmargin=\bibhang,%
-        itemindent=-\bibhang,
-        itemsep=\bibsep,parsep=\z@,partopsep=0pt,
-        topsep=0pt}
-\newlist{bibenum}{enumerate}{3}
-\setlist[bibenum]{label=[\arabic*],resume,leftmargin={\bibhang+\widthof{[999]}},%
-        itemindent=-\bibhang,
-        itemsep=\bibsep,parsep=\z@,partopsep=0pt,
-        topsep=0pt}
-\let\oldendbibenum\endbibenum
-\def\endbibenum{\oldendbibenum\vspace{-.6\baselineskip}}
-\let\oldendbibsection\endbibsection
-\def\endbibsection{\oldendbibsection\vspace{-.6\baselineskip}}
-\makeatother
+\documentclass[]{deedy-resume-openfont}
 
-%% Reference the last page in the page number
-%
-% NOTE: comment the +LP line and uncomment the -LP line to have page
-%       numbers without the ``of ##'' last page reference)
-%
-% NOTE: uncomment the \pagestyle{empty} line to get rid of all page
-%       numbers (make sure includefoot is commented out above)
-%
-\usepackage{fancyhdr,lastpage}
-\pagestyle{fancy}
-%\pagestyle{empty}      % Uncomment this to get rid of page numbers
-\fancyhf{}\renewcommand{\headrulewidth}{0pt}
-\fancyfootoffset{\marginparsep+\marginparwidth}
-\newlength{\footpageshift}
-\setlength{\footpageshift}
-          {0.5\textwidth+0.5\marginparsep+0.5\marginparwidth-2in}
-\lfoot{\hspace{\footpageshift}%
-       \parbox{4in}{\, \hfill %
-                    \arabic{page} of \protect\pageref*{LastPage} % +LP
-%                    \arabic{page}                               % -LP
-                    \hfill \,}}
-
-% Finally, give us PDF bookmarks
-\usepackage{color,hyperref}
-\definecolor{darkblue}{rgb}{0.0,0.0,0.3}
-\hypersetup{colorlinks,breaklinks,
-            linkcolor=darkblue,urlcolor=darkblue,
-            anchorcolor=darkblue,citecolor=darkblue}
-
-%%%%%%%%%%%%%%%%%%%%%%%% End Document Setup %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%% Helper Commands %%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%% HEADING AT TOP OF CURRICULUM VITAE
-
-% The title (name) with a horizontal rule under it
-% (optional argument typesets an object right-justified across from name
-%  as well)
-%
-% Usage: \makeheading{name}
-%        OR
-%        \makeheading[right_object]{name}
-%
-% Place at top of document. It should be the first thing.
-% If ``right_object'' is provided in the square-braced optional
-% argument, it will be right justified on the same line as ``name'' at
-% the top of the CV. For example:
-%
-%       \makeheading[\emph{Curriculum vitae}]{Your Name}
-%
-% will put an emphasized ``Curriculum vitae'' at the top of the document
-% as a title. Likewise, a picture could be included:
-%
-%   \makeheading[\includegraphics[height=1.5in]{my_picutre}]{Your Name}
-%
-% the picture will be flush right across from the name.
-\newcommand{\makeheading}[2][]%
-        {\hspace*{-\marginparsep minus \marginparwidth}%
-         \begin{minipage}[t]{\textwidth+\marginparwidth+\marginparsep}%
-             {\large \bfseries #2 \hfill #1}\\[-0.15\baselineskip]%
-                 \rule{\columnwidth}{1pt}%
-         \end{minipage}}
-
-%%% SECTION HEADINGS
-
-% The section headings. Flush left in small caps down pseudo-margin.
-%
-% Usage: \section{section name}
-\renewcommand{\section}[1]{\pagebreak[3]%
-    \vspace{1.3\baselineskip}%
-    \phantomsection\addcontentsline{toc}{section}{#1}%
-    \noindent\llap{\scshape\smash{\parbox[t]{\marginparwidth}{\hyphenpenalty=10000\raggedright #1}}}%
-    \vspace{-\baselineskip}\par}
-
-%%% LISTS
-
-% This macro alters a list by removing some of the space that follows the list
-% (is used by lists below)
-\newcommand*\fixendlist[1]{%
-    \expandafter\let\csname preFixEndListend#1\expandafter\endcsname\csname end#1\endcsname
-    \expandafter\def\csname end#1\endcsname{\csname preFixEndListend#1\endcsname\vspace{-0.6\baselineskip}}}
-
-% These macros help ensure that items in outer-type lists do not get
-% separated from the next line by a page break
-% (they are used by lists below)
-\let\originalItem\item
-\newcommand*\fixouterlist[1]{%
-    \expandafter\let\csname preFixOuterList#1\expandafter\endcsname\csname #1\endcsname
-    \expandafter\def\csname #1\endcsname{\csname preFixOuterList#1\endcsname\let\oldItem\item\def\item{\pagebreak[2]\oldItem}}
-    \expandafter\let\csname preFixOuterListend#1\expandafter\endcsname\csname end#1\endcsname
-    \expandafter\def\csname end#1\endcsname{\let\item\oldItem\csname preFixOuterListend#1\endcsname}}
-\newcommand*\fixinnerlist[1]{%
-    \expandafter\let\csname preFixInnerList#1\expandafter\endcsname\csname #1\endcsname
-    \expandafter\def\csname #1\endcsname{\let\oldItem\item\let\item\originalItem\csname preFixInnerList#1\endcsname}
-    \expandafter\let\csname preFixInnerListend#1\expandafter\endcsname\csname end#1\endcsname
-    \expandafter\def\csname end#1\endcsname{\csname preFixInnerListend#1\endcsname\let\item\oldItem}}
-
-% An itemize-style list with lots of space between items
-%
-% Usage:
-%   \begin{outerlist}
-%       \item ...    % (or \item[] for no bullet)
-%   \end{outerlist}
-\newlist{outerlist}{itemize}{3}
-    \setlist[outerlist]{label=\enskip\textbullet,leftmargin=*}
-    \fixendlist{outerlist}
-    \fixouterlist{outerlist}
-
-% An environment IDENTICAL to outerlist that has better pre-list spacing
-% when used as the first thing in a \section
-%
-% Usage:
-%   \begin{lonelist}
-%       \item ...    % (or \item[] for no bullet)
-%   \end{lonelist}
-\newlist{lonelist}{itemize}{3}
-    \setlist[lonelist]{label=\enskip\textbullet,leftmargin=*,partopsep=0pt,topsep=0pt}
-    \fixendlist{lonelist}
-    \fixouterlist{lonelist}
-
-% An itemize-style list with little space between items
-%
-% Usage:
-%   \begin{innerlist}
-%       \item ...    % (or \item[] for no bullet)
-%   \end{innerlist}
-\newlist{innerlist}{itemize}{3}
-    \setlist[innerlist]{label=\enskip\textbullet,leftmargin=*,parsep=0pt,itemsep=0pt,topsep=0pt,partopsep=0pt}
-    \fixinnerlist{innerlist}
-
-% An environment IDENTICAL to innerlist that has better pre-list spacing
-% when used as the first thing in a \section
-%
-% Usage:
-%   \begin{loneinnerlist}
-%       \item ...    % (or \item[] for no bullet)
-%   \end{loneinnerlist}
-\newlist{loneinnerlist}{itemize}{3}
-    \setlist[loneinnerlist]{label=\enskip\textbullet,leftmargin=*,parsep=0pt,itemsep=0pt,topsep=0pt,partopsep=0pt}
-    \fixendlist{loneinnerlist}
-    \fixinnerlist{loneinnerlist}
-
-%%% EXTRA SPACE
-
-% To add some paragraph space between lines.
-% This also tells LaTeX to preferably break a page on one of these gaps
-% if there is a needed pagebreak nearby.
-\newcommand{\blankline}{\quad\pagebreak[3]}
-\newcommand{\halfblankline}{\quad\vspace{-0.5\baselineskip}\pagebreak[3]}
-
-%%% FORMATTING MACROS
-
-% Uses hyperref to link DOI
-\newcommand\doilink[1]{\href{http://dx.doi.org/#1}{#1}}
-\newcommand\doi[1]{doi:\doilink{#1}}
-
-% For \url{SOME_URL}, links SOME_URL to the url SOME_URL
-\providecommand*\url[1]{\href{#1}{#1}}
-% Same as above, but pretty-prints SOME_URL in teletype fixed-width font
-\renewcommand*\url[1]{\href{#1}{\texttt{#1}}}
-
-% For \email{ADDRESS}, links ADDRESS to the url mailto:ADDRESS
-\providecommand*\email[1]{\href{mailto:#1}{#1}}
-% Same as above, but pretty-prints ADDRESS in teletype fixed-width font
-%\renewcommand*\email[1]{\href{mailto:#1}{\texttt{#1}}}
-
-%\providecommand\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
-%    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
-%\providecommand\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
-%    \TeX}}
-\providecommand\BibTeX{{B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
-    \TeX}}
-\providecommand\Matlab{\textsc{Matlab}}
-
-% Custom hyphenation rules for words that LaTeX has trouble with
-\hyphenation{bio-mim-ic-ry bio-in-spi-ra-tion re-us-a-ble pro-vid-er}
-
-%%%%%%%%%%%%%%%%%%%%%%%% End Helper Commands %%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%% Begin CV Document %%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
-\makeheading{\LARGE Ben Fifield}
 
-\section{Contact Information}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%     LAST UPDATED DATE
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\lastupdated
 
-% NOTE: Mind where the & separators and \\ breaks are in the following
-%       table. Table is one row made up of three parboxes. The left
-%       parbox has address info, the middle parbox has a vertical bar,
-%       and the right parbox has phone and electronic contact
-%       information.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% MACROS: \rcollength is the width of the right column of the table
-%             (adjust it to your liking; default is 1.85in).
-%         \spacewidth is width of area between left and right boxes.
-%         \spacechar is character used to produce perforated vertical
-%             boundary between boxes.
+%     TITLE NAME
 %
-\newlength{\rcollength}\setlength{\rcollength}{1.85in}%
-\newlength{\spacewidth}\setlength{\spacewidth}{20pt}
-\newcommand\spacechar{$|$}
-%
-\begin{tabular}[t]{@{}p{\textwidth-\rcollength-\spacewidth}@{}p{\spacewidth}@{}p{\rcollength}}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Address box
-\parbox{\textwidth-\rcollength-\spacewidth}{%
-Department of Politics\\ 
-Princeton University\\ 
-001 Fisher Hall\\
-Princeton, NJ 08540
+
+\namesection{Ben}{Fifield}{
+Department of Politics, Princeton University\\001 Fisher Hall, Princeton NJ 08540\\
+\href{mailto:bfifield@princeton.edu}{bfifield@princeton.edu} | (203) 858-9407\\ \urlstyle{same}\url{https://www.benfifield.com} | \href{https://github.com/bfifield}{\faGithub} \ \  \href{https://www.linkedin.com/in/ben-fifield}{\faLinkedin}
 }
 
-% Cheesy perforated vertical bar between boxes
-% Shorten by removing \spacechar's
-& %\parbox{\spacewidth}{\centering \spacechar\\\spacechar\\\spacechar\\\spacechar\\\spacechar}%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     EDUCATION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\section{Education} 
+\begin{flushleft}\runsubsection{Princeton University}\end{flushleft}
+\vspace{-3mm}\descript{PhD in Politics}
+\descript{Nov. 2018 | Princeton, NJ}
+\location{Dissertation: Empirical and Computational Methods for Electoral Politics}
+\location{Committee: Kosuke Imai (chair), David Nickerson, Nolan McCarty}
+\sectionsep
 
-% Non-snail-mail contact information
-\parbox{\rcollength
-}{%
-\textit{Phone:} 1-203-858-9407 \\
-\textit{E-mail:} \email{benfifield@gmail.com}\\
-\textit{Website:} \href{benfifield.com}{benfifield.com}\\
-\textit{Github:} \href{https://github.com/bfifield}{Link}
-}
-\end{tabular}
+\descript{MA in Politics}
+\descript{Oct. 2013 | Princeton, NJ}
+\sectionsep
 
+\runsubsection{Washington University in St. Louis}\\
+\descript{BA in Political Science}
+\descript{May 2010 |  St. Louis, MO}
+\sectionsep
 
-%%
-%% In modern CV's, it seems like ``Objective'' is frowned upon. Instead,
-%% incorporate it into a well-constructed cover letter. The ``More
-%% information'' can go at the end of the CV, but it should not distract
-%% from the section giving references available to contact.
-%%
-%
-% \section{Objective}
-%
-% Placement in an academic position (i.e., faculty, postdoctoral, or
-% research scientist) that allows for advanced research in distributed
-% complex adaptive systems (i.e., modeling, analysis, design, and
-% verification) with a particular focus on the control of engineered
-% agents (e.g., for communications, control, software, electronics, and
-% sustainability) and the analysis of biological phenomena (e.g.,
-% self-organization, ecological rationality)
-% \begin{innerlist}
-% \item More information and auxiliary documents can be found at\\\url{http://www.tedpavlic.com/facjobsearch/}
-% \end{innerlist}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     PUBLICATIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Working Papers}
+\href{https://imai.fas.harvard.edu/research/files/redist.pdf}{A New Automated Redistricting Simulator using Markov chain Monte Carlo} (with Kosuke Imai, Michael Higgins, and Alexander Tarr)\\\vspace{2mm}
 
-\section{Education}
+\href{https://imai.fas.harvard.edu/research/linkage.html}{Using a Probabilistic Model to Assist Merging of Large-scale Administrative Records} (with Ted Enamorado and Kosuke Imai)\\\vspace{2mm}
 
-\href{https://www.princeton.edu}{{\bf Princeton University}}, Princeton, NJ\\
-Ph.D., Politics \hfill Nov. 2018
-\vspace{-2mm}
-\begin{itemize}
-\item[] {\it Dissertation:} Empirical and Computational Methods for Electoral Politics
-\vspace{-3mm}
-\item[] {\it Committee:} Kosuke Imai (chair), David Nickerson, Nolan McCarty
-\end{itemize}
-\vspace{-2mm}
-M.A., Politics \hfill Oct. 2013\\
+Improving Model-Building Workflows for Predicting Heterogeneous Treatment Effects\\\vspace{2mm}
 
-\href{https://www.wustl.edu}{{\bf Washington University in St. Louis}}, St. Louis, MO\\
-B.A. \textit{magna cum laude}, Political Science \hfill May 2010
+Validating Ensembles of Simulated Redistricting Plans\\\vspace{2mm}
 
-\section{Working \\ Papers}
-\href{https://imai.fas.harvard.edu/research/files/redist.pdf}{A New Automated Redistricting Simulator Using Markov Chain Monte Carlo} (with Michael Higgins, Kosuke Imai, and Alexander Tarr)\\\\
-\href{https://imai.fas.harvard.edu/research/files/linkage.pdf}{Using a Probabilistic Model to Assist Merging of Large-scale Administrative Records} (with Ted Enamorado and Kosuke Imai)\\\\
-Improving Model-Building Workflows for Predicting Heterogeneous Treatment Effects\\\\
-Validating Ensembles of Simulated Redistricting Plans\\\\
-\textsf{fastLink}: \textsf{R} Package for Fast Probabilistic Record Linkage (with Ted Enamorado and Kosuke Imai)
+\texttt{fastLink}: \texttt{R} Package for Fast Probabilistic Record Linkage (with Ted Enamorado and Kosuke Imai)\\\vspace{2mm}
+\sectionsep
 
-\section{Other \\ Writings}
-\href{http://www.electionstudies.org/studypages/anes_timeseries_2016/anes_timeseries_2016voteval_userguidecodebook.pdf}{User's Guide and Codebook for the ANES 2016 Time Series Voter Validation Supplemental Data} (with Ted Enamorado and Kosuke Imai)
+\section{Other Writings}
+\href{https://www.electionstudies.org/wp-content/uploads/2018/03/anes_timeseries_2016voteval_userguidecodebook.pdf}{User’s Guide and Codebook for the ANES 2016 Time Series Voter Validation Supplemental Data} (with Ted Enamorado and Kosuke Imai)
+\sectionsep
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     EXPERIENCE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Professional Experience}
-{\bf Facebook}, Menlo Park, CA \hfill Sept. 2018 - Dec. 2018\\
-{\it Contingent Worker}, Demography and Survey Sciences
-\vspace{-2mm}
-\begin{itemize}
+\runsubsection{Facebook}
+\descript{| Research Scientist}
+\location{Sept. 2017 - Nov. 2017 (Research Intern); Dec. 2018 - present | New York, NY}
+\begin{tightemize}
 \item[-] Designed, tested, and implemented new statistical methods for generalizing experimental findings to new target populations
-\end{itemize}
-
-{\bf State of Pennsylvania}, Harrisburg, PA \hfill Jan. 2018 - Feb. 2018\\
-{\it Consulting Expert}
-\vspace{-2mm}
-\begin{itemize}
-\item[-] Applied new Markov chain Monte Carlo algorithms to assess whether proposed Pennsylvania redistricting plans were gerrymandered
-\vspace{-2mm} 
-\item[-] Cleaned and harmonized shapefiles and electoral data gathered across multiple levels of government to estimate the electoral bias of proposed and simulated redistricting plans
-\end{itemize}
-
-{\bf Facebook}, Menlo Park, CA \hfill Aug. 2017 - Nov. 2017\\
-{\it Research Intern}, Demography and Survey Sciences
-\vspace{-2mm}
-\begin{itemize}
 \item[-] Evaluated discrepancies in response rates over time in long-term experimental holdouts, and provided recommendations for weighting experimental data 
-\vspace{-2mm}
-\item[-] Designed and implemented large-scale online experiments to benchmark new survey designs for modeling individual-level treatment effect estimates
-\vspace{-2mm}
-\item[-] Weighted surveys using poststratification, raking, and multilevel regression/poststratification
-\end{itemize}
+\item[-] Designed and ran large-scale online experiments to benchmark new survey designs for modeling individual-level treatment effects
+\end{tightemize}
+\sectionsep
 
-{\bf Hillary for America}, New York, N.Y. \hfill Sept. 2015 - Nov. 2016\\
-{\it Senior Data Scientist}, Department of Analytics
-\vspace{-2mm}
-\begin{itemize}
+\runsubsection{State of Pennsylvania}
+\descript{| Consulting Expert}
+\location{Jan. 2018 - Feb. 2018 | Harrisburg, PA}
+\begin{tightemize}
+\item[-] Applied new Markov chain Monte Carlo algorithms to assess whether proposed Pennsylvania redistricting plans were gerrymandered
+\item[-] Cleaned and harmonized shapefiles and electoral data gathered across multiple levels of government to estimate the electoral bias of proposed and simulated redistricting plans
+\end{tightemize}
+\sectionsep
+
+\runsubsection{Hillary for America}
+\descript{| Senior Data Scientist}
+\location{Sept. 2015 - Nov. 2016 | New York, NY}
+\begin{tightemize}
 \item[-] Team leader responsible for managing three data scientists
-\vspace{-2mm}
 \item[-] Built and directed methodological development of all persuasion models
-\vspace{-2mm}
 \item[-] Developed new forecasting models to predict the election outcome, and provided daily reports to campaign leadership
-\vspace{-2mm}
 \item[-] Developed statistical models of voter turnout and candidate support to optimize primary and general election resource allocation
-\vspace{-2mm}
-\item[-] Implemented advances in machine learning and predictive modeling to improve and automate weighting of opinion surveys
-\end{itemize}
+\end{tightemize}
+\sectionsep
 
-{\bf Democratic National Committee}, Washington, D.C. \hfill Jul. 2010 - Apr. 2011\\
-{\it Research Analyst}, Department of Compliance
+\runsubsection{Democratic National Committee}
+\descript{| Research Analyst}
+\location{Jul. 2010 - Apr. 2011 | Washington, DC}
+\sectionsep
 
-\section{Software} \href{https://github.com/kosukeimai/redist}{\textsf{R} package \textsf{redist}: Markov chain Monte Carlo Methods 
-for Redistricting Simulation.}\\
-\href{https://github.com/kosukeimai/fastLink}{\textsf{R} package \textsf{fastLink}: Fast Probabilistic Record Linkage.}\\
-\href{https://randomizeauthor.shinyapps.io/shiny/}{Shiny app \textsf{randomizeAuthor}: Replicable Author Randomization.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     SOFTWARE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Software}
+\href{https://github.com/kosukeimai/fastLink}{R package \texttt{fastLink:}} Fast Probabilistic Record Linkage \\\vspace{2mm}
 
+\href{https://github.com/kosukeimai/redist}{R package \texttt{redist:}} Markov chain Monte Carlo Methods for Redistricting Simulation\\\vspace{2mm}
+
+\href{https://randomizeauthor.shinyapps.io/shiny/}{Shiny app \texttt{randomizeAuthor}}: Replicable Author Randomization
+\sectionsep
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     GRANTS AND AWARDS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Grants and Awards}
 Q-APS Graduate Fellowship, Princeton University \hfill AY2014, 2015\\
 NSF Funding for the Annual Society for Political Methodology Conference \hfill 2014\\
@@ -456,86 +170,47 @@ University Fellowship, Princeton University \hfill AY2011 - present\\
 CSDP Fellowship, Princeton University \hfill AY2011 - present\\
 Grossman-Alexander Prize, Washington University \hfill 2010\\
 Office of Undergraduate Research Grant, Washington University \hfill 2010
+\sectionsep
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     TEACHING EXPERIENCE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Teaching Experience}
-{\it Instructor} \\
+\location{Instructor}
 Statistical Programming Camp (with Katherine McCabe) \hfill Jan. 2014\\
-Statistical Programming Camp (with Alex Ruder) \hfill Jan. 2013\\
+Statistical Programming Camp (with Alex Ruder) \hfill Jan. 2013\\\vspace{2mm}
 
-{\it Teaching Assistant} \\
+\location{Teaching Assistant}
 POL 329 Policymaking in America (U), Professor Charles Cameron \hfill Fall 2014\\
 POL 572 Quantitative Analysis II (G), Professor Kosuke Imai \hfill Spring 2013
+\sectionsep
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     DEPARTMENTAL SERVICE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Departmental Service}
 {\it Co-Captain}, Leviathan, Princeton Politics Department Softball Team \hfill 2015\\
 {\it Organizer}, Political Methodology Seminar, Princeton University \hfill AY2014
+\sectionsep
 
 \section{Professional Memberships}
 American Political Science Association \hfill 2011 - present\\
 Midwest Political Science Association \hfill 2013 - present
+\sectionsep
 
-\section{Computational Skills}
-Languages: R, C++, Python, Bash\\
-OS Environments: Mac OS, Unix-like\\
-Data Management: SQL (Vertica)\\
-Document Preparation: \LaTeX, Beamer, knitr, RMarkdown\\
-Data Visualization: ggplot2, GIS\\
-High Performance Computing API's: OpenMP, MPI
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%     SKILLS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%\section{Erd\"{o}s Number}
-%4 (Fifield $\rightarrow$ Higgins $\rightarrow$ Rivest $\rightarrow$ Avis $\rightarrow$ Erd\"{o}s)
-
-\clearpage
-\section{References}
-%\halfblankline
-
-\begin{minipage}{.5\textwidth}
-  \begin{flushleft}
-Kosuke Imai\\
-Department of Government\hfill{\href{imai@harvard.edu}{imai@harvard.edu}}\\
-Harvard University
-  \end{flushleft}
-\end{minipage}
-\begin{minipage}{.5\textwidth}
-\begin{flushleft}
-David Nickerson\\
-Department of Political Science \hfill{\href{david.nickerson@temple.edu}{david.nickerson@temple.edu}}\\
-Temple University
-  \end{flushleft}
-\end{minipage}\\\\
-
-\begin{minipage}{.5\textwidth}
-\begin{flushleft}
-Nolan McCarty\\
-Department of Politics \hfill{\href{nmccarty@princeton.edu}{nmccarty@princeton.edu}}\\
-Princeton University
-\end{flushleft}
-\end{minipage} 
+\section{Programming}
+\location{Languages:}
+R \textbullet{} C++ \textbullet{} bash \\
+\location{Data Management:} SQL (Vertica, MySQL)\\
+\location{Document Preparation:} \LaTeX \textbullet{} knitr \textbullet{} RMarkdown\\
+\location{Version Control:} git\textbullet{} svn\\
+\location{Data Visualization:} ggplot2\textbullet{} GIS\\
+\location{Bayesian Computing:} JAGS\textbullet{} stan\\
+\location{High Performance Computing API's:} OpenMP\textbullet{} MPI
+\sectionsep
 
 \end{document}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%% End CV Document %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%----------------------------------------------------------------------%
-% The following is copyright and licensing information for
-% redistribution of this LaTeX source code; it also includes a liability
-% statement. If this source code is not being redistributed to others,
-% it may be omitted. It has no effect on the function of the above code.
-%----------------------------------------------------------------------%
-% Copyright (c) 2007, 2008, 2009, 2010, 2011 by Theodore P. Pavlic
-%
-% Unless otherwise expressly stated, this work is licensed under the
-% Creative Commons Attribution-Noncommercial 3.0 United States License. To
-% view a copy of this license, visit
-% http://creativecommons.org/licenses/by-nc/3.0/us/ or send a letter to
-% Creative Commons, 171 Second Street, Suite 300, San Francisco,
-% California, 94105, USA.
-%
-% THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-% OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-% MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-% IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-% CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-% TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-% SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-%----------------------------------------------------------------------%
